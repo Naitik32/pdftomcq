@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Upload PDF to Generate MCQs</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".pdf" required>
+        <button type="submit">Upload and Generate MCQs</button>
+    </form>
+
+    {% if mcqs %}
+    <h2>Generated MCQs</h2>
+    <div id="mcq-container">
+        {% for mcq in mcqs %}
+        <div class="mcq">
+            <p>{{ mcq }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <button onclick="startTimer()">Start Timer</button>
+    <div id="timer">00:00</div>
+    {% endif %}
+
+    <script>
+        let time = 300; // 5 minutes
+        let timerInterval;
+
+        function startTimer() {
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            document.getElementById('timer').innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            if (time <= 0) {
+                clearInterval(timerInterval);
+                alert("Time's up!");
+            } else {
+                time--;
+            }
+        }
+    </script>
+</body>
+</html>
