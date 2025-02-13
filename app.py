@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+ from flask import Flask, render_template, request, redirect, url_for
 import os
 from PyPDF2 import PdfReader
 import nltk
@@ -51,3 +51,7 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# Add this for Vercel
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
